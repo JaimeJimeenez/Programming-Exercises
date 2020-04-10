@@ -14,7 +14,7 @@ int main() {
     std::cout << "Write a number: ";
     std::cin >> number;
 
-    if(isPrime(10)) std::cout << "The number is prime.\n";
+    if(isPrime(number)) std::cout << "The number is prime.\n";
     else std::cout << "The number is not prime.\n";
 
     return 0;
