@@ -16,6 +16,7 @@ int main() {
         if (imputVector.at(i) % 2 == 0) actualVector.push_back(imputVector.at(i)); 
         i++;
     }
+    std::cout << "Result: ";
     showVector(actualVector);
     
     return 0;

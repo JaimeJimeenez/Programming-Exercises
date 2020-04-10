@@ -12,7 +12,7 @@ int main() {
             for (int j { i + 1 }; j < imputVector.size(); j++) saveVector.push_back(imputVector.at(j));
         }
     }
-
+    std::cout << "Vector with words after 'guardar': ";
     for (auto elem : saveVector) {
         std::cout << elem << ", ";
     }

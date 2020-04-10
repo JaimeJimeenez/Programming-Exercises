@@ -12,8 +12,9 @@ int main() {
     std::vector <int> actualVector;
 
     for (auto elem : immputVector) {
-        if(elem % 2 == 0) actualVector.push_back(elem);
+        if (elem % 2 == 0) actualVector.push_back(elem);
     }
+    std::cout << "Result: ";
     showVector(actualVector);
 
     return 0;
