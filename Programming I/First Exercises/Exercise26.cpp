@@ -17,7 +17,7 @@ int main() {
     }
 
     for (int i { 0 }; i < imputArray.size(); i++) {
-        if (imputArray.at(i)%3 == 0) imputSet.insert(imputArray.at(i));
+        if (imputArray.at(i) % 3 == 0) imputSet.insert(imputArray.at(i));
     }
 
     showSet(imputSet);
