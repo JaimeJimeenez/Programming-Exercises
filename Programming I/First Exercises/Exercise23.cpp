@@ -6,7 +6,7 @@ int main() {
     int result { 1 };
 
     std::cout << "Write a number: ";
-    //std::cin >> number;
+    std::cin >> number;
 
     for (int i { number }; i > 0; i--) {
         result *= i;
