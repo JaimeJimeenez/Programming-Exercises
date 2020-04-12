@@ -1,25 +1,24 @@
 #pragma once
 #include <iostream>
 
-class Person{
-    friend std::ostream& operator<<(std::ostream&, const Person&);
+class Person
+{
 public:
 
-    Person(std::string, short int, std::string);
+	Person(std::string, short int, std::string);
 
-    void setName(const std::string&);
-    std::string getName() const;
+	void setName(std::string);
+	std::string getName();
 
-    void setAge(short int&);
-    short int getAge() const;
+	void setAge(int);
+	int getAge();
 
-    void setPhoneNumber(const std::string&);
-    std::string getPhoneNumber() const;
+	void setPhoneNumber(std::string);
+	std::string getPhoneNumber();
 
 private:
-
-    std::string name;
-    short int age;
-    std::string phoneNumber;
-    
+	std::string name;
+	short int age;
+	std::string phoneNumber;
 };
+
