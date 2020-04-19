@@ -1,12 +1,11 @@
 #include "Matrix.h"
-#include <iostream>
 
 Matrix::Matrix(int rows, int columns)
 {
-	if (rows <= 0 || columns <= 0) throw std::string{ "Error: imput parameters not valid.\n" };
+	if (rows <= 0 || columns <= 0) throw std::string{ "Error: Imput parameters not valid.\n" };
 	this->rows = rows;
 	this->columns = columns;
-	imputMatrix = std::vector <std::vector <float>>(rows, std::vector<float>(columns));
+	data.resize(rows * columns, 0);
 }
 
 int Matrix::getRows() const
@@ -19,77 +18,72 @@ int Matrix::getColumns() const
 	return columns;
 }
 
-float Matrix::getElement(int rows, int columns) const
+float Matrix::getElement(int row, int column)
 {
-	return imputMatrix.at(rows).at(columns);
+	if (row > rows || column > columns) throw std::string{ "Error: Parameters out of range.\n" };
+	int position = row * columns + column;
+	return data.at(position);
 }
 
-void Matrix::setElement(int rows, int columns, float value)
+void Matrix::setElement(int row, int column, float value)
 {
-	if (rows > getRows() || columns > getColumns()) throw std::string{ "Error: Imput parameters not valid.\n" };
-	imputMatrix.at(rows).at(columns) = value;
+	if (row > rows || column > columns) throw std::string{ "Error: Parameters out of range.\n" };
+	int position = row * columns + column;
+	data.at(position) = value;
 }
 
-std::vector<std::vector<float>> Matrix::generateMatrix() const
+void Matrix::print() const
 {
-	return imputMatrix;
-}
-
-Matrix Matrix::add(Matrix otherMatrix) const
-{
-	if (rows != otherMatrix.getRows() || columns != otherMatrix.getColumns()) throw std::string{ "Error: Parameters of both matrix must be the same.\n" };
-
-	Matrix result(rows, columns);
+	std::cout << "Matrix:\n";
 	for (int i{ 0 }; i < rows; i++) {
 		for (int j{ 0 }; j < columns; j++) {
-			result.setElement(i, j, imputMatrix.at(i).at(j) + otherMatrix.getElement(i, j));
+			int position = i * columns + j;
+			std::cout << data.at(position) << " ";
+		}
+		std::cout << "\n";
+	}
+}
+
+Matrix Matrix::add(Matrix& otherMatrix)
+{
+	if (rows != otherMatrix.getRows() || columns != otherMatrix.getColumns()) throw std::string{ "Error: Parameters must be the same.\n" };
+
+	Matrix result(rows, columns);
+	for (int i{ 0 }; i < otherMatrix.getRows(); i++) {
+		for (int j{ 0 }; j < otherMatrix.getColumns(); j++) {
+			int position = i * columns + j;
+			result.setElement(i, j, data.at(position) + otherMatrix.getElement(i, j));
 		}
 	}
 	return result;
 }
 
-Matrix Matrix::multiply(const Matrix& otherMatrix) 
+Matrix Matrix::multiply(Matrix& otherMatrix)
 {
-	if (rows != otherMatrix.getColumns() || columns != otherMatrix.getRows()) throw std::string { "Error: Parameters not valid.\n" };
-
-	for (int i{ 0 }; i < otherMatrix.getColumns(); i++) {
-		for (int j{ 0 }; j < otherMatrix.getRows(); j++) {
+	if (rows != otherMatrix.getColumns() || columns != otherMatrix.getRows()) throw std::string{ "Error: Parameters must be the same.\n" };
+	
+	Matrix result(rows, columns);
+	for (int i{ 0 }; i < otherMatrix.getRows(); i++) {
+		for (int j{ 0 }; j < otherMatrix.getColumns(); j++) {
+			float result{ 0 };
 			for (int k{ 0 }; k < otherMatrix.getColumns(); k++) {
-				imputMatrix.at(i).at(j) += otherMatrix.getElement(i, k) * otherMatrix.getElement(k, j);
+				result += otherMatrix.getElement(i, j) * otherMatrix.getElement(k, j);
 			}
 		}
 	}
+	return result;
 }
 
-std::ostream& operator<<(std::ostream& out, const Matrix& actualMatrix)
-{
-	for (int i{ 0 }; i < actualMatrix.getRows(); i++) {
-		for (int j{ 0 }; j < actualMatrix.getColumns(); j++) {
-			out << actualMatrix.getElement(i, j) << " ";
-		}
-		out << "\n";
-	}
-	return out;
-}
 
-std::istream& operator>>(std::istream& in, Matrix& actualMatrix)
+
+std::istream& operator>>(std::istream& in, Matrix& imputMatrix)
 {
 	float value;
-	for (int i{ 0 }; i < actualMatrix.getRows(); i++) {
-		for (int j{ 0 }; j < actualMatrix.getColumns(); j++) {
+	for (int i{ 0 }; i < imputMatrix.getRows(); i++) {
+		for (int j{ 0 }; j < imputMatrix.getColumns(); j++) {
 			in >> value;
-			actualMatrix.setElement(i, j, value);
+			imputMatrix.setElement(i, j, value);
 		}
 	}
 	return in;
-}
-
-Matrix operator+(Matrix firstMatrix, const Matrix& secondMatrix)
-{
-	return firstMatrix.add(secondMatrix);
-}
-
-Matrix operator*(Matrix firstMatrix, const Matrix& secondMatrix)
-{
-	return firstMatrix.multiply(secondMatrix);
 }

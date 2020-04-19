@@ -3,22 +3,35 @@
 
 int main() {
 
-	try
-	{
-		
-		Matrix imputMatrix(3, 3);
-		Matrix secondMatrix(3, 3);
-		std::cout << "Imput Matrix:\n";
-		std::cin >> imputMatrix;
-		std::cout << "Introduce another Matrix:\n";
+	try {
+		int imputRows;
+		int imputColumns;
+
+		//First Matrix
+		std::cout << "Imput parameters for the matrix:";
+		std::cin >> imputRows;
+		std::cin >> imputColumns;
+		Matrix firstMatrix(imputRows, imputColumns);
+		std::cout << "Imput values for the matrix:\n";
+		std::cin >> firstMatrix;
+
+		//Second Matrix
+		std::cout << "Imput parameters for the matrix:";
+		std::cin >> imputRows;
+		std::cin >> imputColumns;
+		Matrix secondMatrix(imputRows, imputColumns);
+		std::cout << "Imput values for the matrix:\n";
 		std::cin >> secondMatrix;
-		std::cout << "Result of the sum:\n" << imputMatrix + secondMatrix;
-		std::cout << "Result of the product:\n" << imputMatrix * secondMatrix;
+
+		//Operations
+		std::cout << "Sum:\n";
+		Matrix sum = firstMatrix.add(secondMatrix);
+		sum.print();
+		std::cout << "Product:\n";
+		Matrix product = firstMatrix.multiply(secondMatrix);
+		product.print();
 	}
-	catch (const std::string& exception)
-	{
+	catch (const std::string& exception) {
 		std::cout << exception;
 	}
-
-	return 0;
 }
