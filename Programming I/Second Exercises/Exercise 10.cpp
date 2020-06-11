@@ -55,4 +55,6 @@ int main() {
 
 	default: std::cout << "Option not valid.\n";
 	}
+    
+    return 0;
 }
